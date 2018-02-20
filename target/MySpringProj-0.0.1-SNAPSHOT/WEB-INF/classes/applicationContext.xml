@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<bean id="html" class="com.igate.springbasic.HTMLMessageProducer" />
+	<bean id="text" class="com.igate.springbasic.TextMessageProducer" />
+	<bean id="messageWriter" class="com.igate.springbasic.MessageWriter">
+		<!-- <property name="iMessageProducer" ref="text" /> -->
+		<constructor-arg ref="text" />
+	</bean>
+	<bean id="robot" class="com.igate.springbasic.Robot">
+		<constructor-arg value="10" name="id" />
+		<constructor-arg value="chitti" name="name" />
+	</bean>
+	<bean id="course" class="com.igate.springbasic.Course">
+		<property name="subjects">
+			<list value-type="java.lang.String">
+				<value>C</value>
+				<value>C++</value>
+				<value>Java</value>
+			</list>
+		</property>
+		<property name="properties">
+			<props>
+				<prop key="Mark">C</prop>
+				<prop key="Jhon">Java</prop>
+			</props>
+		</property>
+		<constructor-arg name="faculty">
+			<set value-type="java.lang.String">
+				<value>Ram</value>
+				<value>Ram</value>
+				<value>Raheem</value>
+			</set>
+		</constructor-arg>
+	</bean>
+	<!-- Bean Inheritance -->
+	<bean id="baseCar" class="com.igate.springbasic.inheritance.SpringBeanInheritance"
+		abstract="true">
+		<property name="color" value="Red" />
+		<property name="model" value="2018" />
+		<property name="type" value="Sedan" />
+	</bean>
+	<bean id="car1" class="com.igate.springbasic.inheritance.SpringBeanInheritance"
+		parent="baseCar">
+		<property name="id" value="1" />
+		<property name="name" value="Swift" />
+	</bean>
+	<bean id="car2" class="com.igate.springbasic.inheritance.SpringBeanInheritance"
+		parent="baseCar">
+		<property name="id" value="2" />
+		<property name="name" value="City" />
+	</bean>
+	<!-- Inner beans -->
+	<bean id="cycle" class="com.igate.springbasic.innerbeans.Bycycle">
+		<property name="chain">
+			<bean id="chain" class="com.igate.springbasic.innerbeans.Chain">
+				<property name="type" value="mettal" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="car" class="com.igate.springbasic.idref.Car" autowire="constructor" />
+	<bean id="engine1" class="com.igate.springbasic.idref.Engine" />
+
+	<bean id="scope" class="com.igate.springbasic.innerbeans.BeanScopes"
+		scope="session" />
+	<!-- <bean id="a" class="com.igate.spring.dependson.A" depends-on="c" /> 
+		<bean id="b" class="com.igate.spring.dependson.B" /> <bean id="c" class="com.igate.spring.dependson.C" 
+		/> -->
+
+	<bean id="robo" class="com.igate.spring.lifecycle.Robot">
+		<property name="name" value="Chitti"></property>
+		<property name="driver" ref="sdriver" />
+	</bean>
+	<bean id="sdriver" class="com.igate.spring.lifecycle.SensorDriver">
+		<property name="type" value="IOT"></property>
+	</bean>
+	<context:annotation-config />
+	<context:component-scan base-package="com.igate.*" />
+
+	<!-- BPP -->
+	<bean id="empVO" class="com.igate.spring.bpp.EmployeeVO" />
+	<bean id="empDAO" class="com.igate.spring.bpp.EmployeeDAO" />
+	<bean id="empdel" class="com.igate.spring.bpp.EmployeeDeligate">
+		<lookup-method name="lookUpEmployeeVO" bean="empVO" />
+		<property name="employeeDAO" ref="empDAO"></property>
+	</bean>
+	<bean id="bpp" class="com.igate.spring.bpp.BaseVOPostProcessor" />
+	
+	<!-- Data Source -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="url" value="jdbc:postgresql://localhost:5432/postgres" />
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="username" value="postgres" />
+		<property name="password" value="password" />
+	</bean>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dataSource" />
+	</bean>
+</beans>
