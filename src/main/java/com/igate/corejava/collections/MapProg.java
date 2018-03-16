@@ -20,6 +20,8 @@ public class MapProg {
 		hashMap.put("Spring", 102);
 		hashMap.put("Rest", 104);
 		hashMap.put("Hibernate", 103);
+		hashMap.put("Hibernate", 106);
+		
 		System.out.println(hashMap);
 		System.out.println("*********************************");
 		Set<?> keySet = hashMap.entrySet();

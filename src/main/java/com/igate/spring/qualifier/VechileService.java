@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component("vechile222")
 public class VechileService {
 	@Autowired
-	@Qualifier(value="cars")
+	@Qualifier(value="bike")
 	private Vechile vechile;
 
 	public void vs() {
